@@ -1,0 +1,33 @@
+.panel-body {
+    display: flex;
+    /* align-items: center; */
+}
+
+.main-container {
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.list-container {
+    align-self: center;
+    width: 400px;
+    margin-top: 20px;
+}
+
+.expense-categories {
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
+}
+
+.expense-categories:hover {
+    background-color: lightblue;
+}
+
+.btn btn-danger {
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    justify-content: space-around;
+    display: flex;
+}

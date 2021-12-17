@@ -1,0 +1,55 @@
+<h1>Global settings</h1>
+
+<div class="panel-body">
+    <div class="main-container1">
+<details>
+    <summary>
+            Expense categories
+    </summary>
+<h3>Expense categories:</h3>
+<ul class="list-group list-container">
+    <li *ngFor="let category of expenseCategories; let i=index" class="list-group-item expense-categories">
+        <p>{{expenseCategories[i].name}}</p>
+        <button class="btn btn-danger" (click)="deleteCategory(expenseCategories[i].id)">Delete</button>
+    </li>
+    <input [(ngModel)]="newCategoryName" mdInput placeholder="New category name..." name="newCategoryName">
+    <button (click)="addExpenseCategory()" md-icon-button>Add</button>
+</ul>
+
+
+
+</details>
+</div>
+<br/>
+    <div class="main-container2">
+        <details>
+            <summary>
+                    Income categories
+            </summary>
+<h3>Income categories:</h3>
+<ul class="list-group list-container">
+    <li *ngFor="let category of incomeCategories; let i=index" class="list-group-item expense-categories">
+        <p>{{incomeCategories[i].name}}</p>
+        <button class="btn btn-danger" (click)="deleteCategory(incomeCategories[i].id)">Delete</button>
+
+        <!-- <app-employee-details [employeeInfo]="employeeList[i]" [index]="i" (deleteEmployeeEvent)="deleteEmployee($event)" (deleteElementEvent)="deleteElement($event)"></app-employee-details> -->
+    </li>
+</ul>
+</details>
+</div>
+</div>
+
+<!-- <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th class="col-md-4">Expense category name:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="name in getdrugnameNewArray" *ngFor="let category of expenseCategories; let i=index" class="list-group-item expense-categories">
+        <td>{{expenseCategories[i].name}}</td>
+        <button class="btn btn-danger" (click)="deleteCategory(expenseCategories[i].id)">Delete</button>
+        <!-- <td><input type="text" placeholder="2016"></td>
+      </tr>
+    </tbody>
+  </table> -->

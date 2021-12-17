@@ -1,0 +1,52 @@
+<h1>Register to Home Budget Manager</h1>
+
+<div ng-app="myApp" ng-controller="myController" class="container">
+    <form name="myForm" (ngSubmit)="onSubmit()">
+      <div class="login-container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Username</label>
+              <input class="form-control" type="text" [(ngModel)]="username" name="username" required>
+              <!-- <div ng-show="myForm.username.$error.username" class="error">Invalid username!</div>
+              <div ng-show="myForm.username.$error.required &amp;&amp; myForm.username.$touched" class="error">Required!</div> -->
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Email</label>
+              <input class="form-control" type="email" [(ngModel)]="email" name="email" required>
+              <!-- <div ng-show="myForm.username.$error.username" class="error">Invalid username!</div>
+              <div ng-show="myForm.username.$error.required &amp;&amp; myForm.username.$touched" class="error">Required!</div> -->
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Password</label>
+              <input class="form-control" type="password" [(ngModel)]="password" name="password" required>
+              <!-- <div ng-show="myForm.password.$error.required &amp;&amp; myForm.password.$touched" class="error">Required!</div> -->
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Confirm password</label>
+              <input class="form-control" type="password" [(ngModel)]="passwordConfirmed" name="passwordConfirmed" required>
+              <!-- <div ng-show="myForm.password.$error.required &amp;&amp; myForm.password.$touched" class="error">Required!</div> -->
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <button type="submit" ng-click="authenticate()" ng-disabled="myForm.$invalid" class="btn btn-success pull-right">Register</button>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
+            <div ng-show="showSuccess" class="alert alert-success">Login Successful!</div>
+          </div>
+        </div> -->
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,155 @@
+<h2>Monthly budget</h2>
+<h3>{{monthName | uppercase}} 2021</h3>
+
+<div id="divChart">
+  <h3>Expenses planned vs. real</h3>
+  <canvas id="monthChart"></canvas>
+</div>
+
+<details>
+  <summary>Planned expenses</summary>
+    <h3>Planned expenses</h3>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="col-md-4">Category</th>
+            <th class="col-md-4">Planned</th>
+            <th class="col-md-2">Real</th>
+            <th class="col-md-2">Difference</th>
+            <th class="col-md-2">Plan realization</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td><b>Total</b></td>
+              <td>{{totalExpensesPlannedValues | currency:'EUR'}} </td>
+              <td>{{totalExpensesValues | currency:'EUR'}}</td>   
+              <td>{{sumOfDifferencesBetweenExpensesAndExpensesPlanned | currency:'EUR'}}</td>
+              <td>{{totalExpensesValues / totalExpensesPlannedValues | percent}}</td>
+          </tr>
+          <span><b>Left to plan</b> {{leftToPlan | currency:'EUR'}}</span>
+          <tr *ngFor="let category of expenseCategories; let i=index">
+            <td>{{category.name}}</td>
+            <td><input type="number" [(ngModel)]="expensesPlannedValues[i]" (input)="updateExpensePlanned(expensesPlannedValues[i], expensesPlanned[i])" placeholder="{{expensesPlanned[i].amount | currency:'EUR'}}"></td>
+            <td>{{expenses[i].amount | currency:'EUR'}}</td>
+            <td>{{differenceBetweenExpensesAndExpensesPlanned[i] | currency:'EUR'}}</td>
+            <td>{{expenses[i].amount / expensesPlanned[i].amount | percent}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span>In order to edit your categories go to <a href="/settings">settings</a>.</span>
+      <div class="summary">
+        <h3>Summary and tips</h3>
+          <p *ngIf="sumOfDifferencesBetweenExpensesAndExpensesPlanned < 0">Attention, you have exceeded your planned monthly budget by the amount of: <b>{{sumOfDifferencesBetweenExpensesAndExpensesPlanned}}</b>. Consider which budget you will use to cover additional expenses.  Consider this situation in next month's plan.</p>
+          <p *ngIf="sumOfDifferencesBetweenExpensesAndExpensesPlanned >= 0">Keep it up! According to your plan, this month you can still spend: <b>{{sumOfDifferencesBetweenExpensesAndExpensesPlanned}}</b>. Keep trying to stay within your planned budget. If there are funds left here at the end of the month, transfer them to overpaid debts or savings.</p>
+      </div>
+</details>
+
+<details>
+  <summary>Planned incomes</summary>
+    <h3>Planned incomes</h3>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="col-md-4">Category</th>
+            <th class="col-md-4">Planned</th>
+            <th class="col-md-2">Real</th>
+            <th class="col-md-2">Difference</th>
+            <th class="col-md-2">Plan realization</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Total</b></td>
+            <td>{{totalIncomesPlannedValues}}</td>
+            <td>{{totalIncomesValues}}</td>
+            <td>{{sumOfDifferencesBetweenIncomesAndIncomesPlanned}}</td>
+            <td>{{totalIncomesValues / totalIncomesPlannedValues | percent}}</td>
+          </tr>
+          <tr *ngFor="let income of incomesPlanned; let i=index">
+            <td>{{income.category}}</td>
+            <td><input type="number" [(ngModel)]="incomesPlannedValues[i]" (input)="updateIncomePlanned(incomesPlannedValues[i], incomesPlanned[i])" placeholder="{{incomesPlanned[i].amount | currency:'EUR'}}"></td>
+            <td>{{incomes[i].amount}}</td>
+            <td>{{differenceBetweenIncomesAndIncomesPlanned[i]}}</td>
+            <td>{{incomes[i].amount / incomesPlanned[i].amount | percent}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span>In order to edit your categories go to <a href="/settings">settings</a>.</span>
+      <div class="summary">
+        <h3>Summary and tips</h3>
+          <p *ngIf="sumOfDifferencesBetweenIncomesAndIncomesPlanned < 0">This month you have earned less than you had planned by: <b>{{sumOfDifferencesBetweenIncomesAndIncomesPlanned}}</b>. Reevaluate your spending once again. Check which ones you can cut back on so you don't run out of money for priorities.</p>
+          <p *ngIf="sumOfDifferencesBetweenIncomesAndIncomesPlanned >= 0">Bravo! You have earned more this month than you planned by: <b>{{sumOfDifferencesBetweenIncomesAndIncomesPlanned}}</b>. Raising your income is a major pillar of getting rich and out of debt. Put the excess into savings or overpayment of debts if you have successfully completed a monthly budget.</p>
+      </div>
+</details>
+
+<details>
+  <summary>Your expenses</summary>
+    <h3>Your expenses</h3>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="col-md-4">Category</th>
+            <th class="col-md-4">Comment</th>
+            <th class="col-md-2">Date</th>
+            <th class="col-md-2">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let expense of expenses">
+            <td>{{expense.category}}</td>
+            <td>{{expense.comment}}</td>
+            <td>{{expense.date | date:'dd.MM.yyyy'}}</td>
+            <td>{{expense.amount | currency:'EUR'}}</td>
+            <button class="btn btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
+          </tr>
+          <tr>
+            <td align="center">
+              <select [(ngModel)]="tempCategory">        
+                   <option *ngFor="let category of expenseCategories" [ngValue]="category" placeholder="Category...">{{category.name}}</option>
+              </select>
+            </td>
+            <td><input type="text" [(ngModel)]="tempComment" placeholder="Comment..."></td>
+            <td><input type="date" [(ngModel)]="tempDate"></td>
+            <td><input type="number" [(ngModel)]="tempValue"></td>
+            <button class="btn " (click)="addExpense()">Add</button>
+          </tr>
+        </tbody>
+      </table>
+</details>
+
+<details>
+  <summary>Your incomes</summary>
+    <h3>Your incomes</h3>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th class="col-md-4">Category</th>
+            <th class="col-md-4">Comment</th>
+            <th class="col-md-2">Date</th>
+            <th class="col-md-2">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let income of incomes">
+            <td>{{income.category}}</td>
+            <td>{{income.comment}}</td>
+            <td>{{income.date | date:'dd.MM.yyyy'}}</td>
+            <td>{{income.amount | currency:'EUR'}}</td>
+            <button class="btn btn-danger" (click)="deleteIncome(income.id)">Delete</button>
+          </tr>
+          <tr>
+            <td align="center">
+              <select [(ngModel)]="tempCategory">        
+                   <option *ngFor="let category of incomeCategories" [ngValue]="category" placeholder="Category...">{{category.name}}</option>
+              </select>
+            </td>
+            <td><input type="text" [(ngModel)]="tempComment" placeholder="Comment..."></td>
+            <td><input type="date" [(ngModel)]="tempDate"></td>
+            <td><input type="number" [(ngModel)]="tempValue"></td>
+            <!-- <td><input type="number" [(ngModel)]="tempValue" (input)="addExpense()"></td> -->
+            <button class="btn " (click)="addIncome()">Add</button>
+          </tr>
+        </tbody>
+      </table>
+</details>

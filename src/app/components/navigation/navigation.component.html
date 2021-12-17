@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" routerLink="/home"><img src="assets\logo.jpg" class="img responsive logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/home">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" *ngIf="loggedIn" routerLink="/annual-report">Annual report<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <div ngbDropdown class="d-inline-block dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle *ngIf="loggedIn">Month</a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
+              <button class="dropdown-item" type="button" routerLink="month/january" (click)="navigateToJanuary()">January</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/february" (click)="navigateToFebruary()">February</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/march" (click)="navigateToMarch()">March</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/april" (click)="navigateToApril()">April</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/may" (click)="navigateToMay()">May</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/june" (click)="navigateToJune()">June</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/july" (click)="navigateToJuly()">July</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/august" (click)="navigateToAugust()">August</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/september" (click)="navigateToSeptember()">September</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/october" (click)="navigateToOctober()">October</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button"  routerLink="month/november" (click)="navigateToNovember()">November</button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" type="button" routerLink="month/december" (click)="navigateToDecember()">December</button>
+              </div>
+            </div>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" *ngIf="loggedIn" routerLink="/settings">Settings<span class="sr-only">(current)</span></a>
+          </li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-link px-3 me-2" *ngIf="!loggedIn" routerLink="/login">
+          Login
+        </button>
+        <button type="button" class="btn btn-primary me-3" *ngIf="!loggedIn" routerLink="/register">
+          Register
+        </button>
+        <button type="button" class="btn btn-link px-3 me-2" *ngIf="loggedIn" (click)="logoutUser()">
+          Logout, {{username}}
+        </button>
+      </div>
+    </div>
+</nav>
